@@ -1,4 +1,7 @@
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-extra');
+const StealthPlugin = require('puppeteer-extra-plugin-stealth');
+
+puppeteer.use(StealthPlugin());
 
 const url = 'https://www.youtube.com/';
 
@@ -8,6 +11,7 @@ async function start() {
   const browser = await puppeteer.launch({
     headless: false,
     defaultViewport: null,
+    args: ['--proxy-server=78.110.195.242:7080']
   });
 
 
@@ -28,6 +32,8 @@ async function start() {
   });
 
 
+  console.log(videosList);
+
   // поиск
   page.type('input[id=search]', 'Как стать программистом');
 
@@ -38,11 +44,6 @@ async function start() {
   page.click('button[id=search-icon-legacy]');
 
   // await browser.close();
-
-  console.log(videosList);
-
-
-
 }
 
 

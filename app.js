@@ -23,8 +23,8 @@ async function start() {
     const videos = [];
     document.querySelectorAll('ytd-rich-item-renderer').forEach((card) => {
       videos.push({
-        title: card.querySelector('#video-title').innerHTML,
-        author: card.querySelector('.ytd-channel-name a').innerHTML,
+        title: card.querySelector('#video-title')?.innerHTML,
+        author: card.querySelector('.ytd-channel-name a')?.innerHTML,
       });
     });
 

@@ -27,7 +27,17 @@ async function start() {
     return videos;
   });
 
-  await browser.close();
+
+  // поиск
+  page.type('input[id=search]', 'Как стать программистом');
+
+
+  // Wait 2s
+  await new Promise((resolve) => setTimeout(resolve, 2000)); 
+
+  page.click('button[id=search-icon-legacy]');
+
+  // await browser.close();
 
   console.log(videosList);
 

@@ -1,9 +1,10 @@
 const puppeteer = require('puppeteer-extra');
+// const puppeteer = require('puppeteer');
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 
 puppeteer.use(StealthPlugin());
 
-const url = 'https://www.youtube.com/';
+const url = 'https://www.rabota.ru/';
 
 async function start() {
 
@@ -19,31 +20,34 @@ async function start() {
   await page.goto(url, { waitUntil: "domcontentloaded" });
 
   // как собрать информацию - на примере видео
-  const videosList = await page.evaluate(() => {
-    const videos = [];
-    document.querySelectorAll('ytd-rich-item-renderer').forEach((card) => {
-      videos.push({
-        title: card.querySelector('#video-title')?.innerHTML,
-        author: card.querySelector('.ytd-channel-name a')?.innerHTML,
+  const vacancyList = await page.evaluate(() => {
+    const vacancies = [];
+    document.querySelectorAll('.vacancy-preview-card__wrapper').forEach((card) => {
+      vacancies.push({
+        title: card.querySelector('.vacancy-preview-card__title a')?.innerHTML,
+        salary: card.querySelector('.vacancy-preview-card__salary a')?.innerHTML,
       });
     });
 
-    return videos;
+    return vacancies;
   });
 
 
-  console.log(videosList);
+  console.log(vacancyList);
 
   // поиск
-  page.type('input[id=search]', 'Как стать программистом');
+  page.type('.vacancy-search-form .r-suggester__input input', 'Javascript программист');
 
 
-  // Wait 2s
-  await new Promise((resolve) => setTimeout(resolve, 2000)); 
+  // Wait 1s
+  await new Promise((resolve) => setTimeout(resolve, 1000));
 
-  page.click('button[id=search-icon-legacy]');
+  page.click('.vacancy-search-form__btn-wrapper button');
 
-  // await browser.close();
+  // Wait 5s
+  await new Promise((resolve) => setTimeout(resolve, 5000)); 
+
+  await browser.close();
 }
 
 
